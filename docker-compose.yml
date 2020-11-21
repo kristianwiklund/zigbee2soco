@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+    zigbee2soco:
+        build: .
+        restart: always
+        network_mode: host
+        image: zigbee2soco
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t

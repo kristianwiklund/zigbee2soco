@@ -1,12 +1,16 @@
 #!/usr/bin/python3
 
+import sys 
+
+for path in sys.path:
+    print(path)
+
 #change this to fit your own prefix. I use the stereo part to automatically identify only stereo events
 
 mqttprefix="zigbee/stereo"
 
 import paho.mqtt.client as mqtt
 import soco
-import sys
 import traceback
 
 def discover():
