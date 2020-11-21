@@ -1,4 +1,4 @@
-This connects sonos to zigbee2mqtt to control speakers with IKEA SYMFONISK controller
+This connects sonos to zigbee2mqtt to control SONOS speakers with IKEA SYMFONISK controller
 
 The controller need to be named after the speaker, e.g. mqtt topic *prefix*/*speaker*, then everything works out of the box.
 This is case sensitive and *prefix* need to uniquely identify what messages are from controllers
