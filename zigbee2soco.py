@@ -12,18 +12,25 @@ import traceback
 def discover():
     zones = {x.player_name:x for x in  soco.discover()}
     
-    print("ZONES: "+str(zones))
+    #print("ZONES: "+str(zones))
     return zones
 
 def pause(zones, speaker):
     print("Pausing "+speaker)
     state = zones[speaker].get_current_transport_info()['current_transport_state']
-    print(state)
+    #print(state)
 
     if state == "PLAYING":
         zones[speaker].pause()
     else:
         zones[speaker].play()
+
+def skipforward(zones, speaker):
+    print("Pausing "+speaker)
+    state = zones[speaker].get_current_transport_info()['current_transport_state']
+    #print(state)
+
+    zones[speaker].next()
 
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -46,8 +53,8 @@ def on_message(client, zones, msg):
         topic = msg.topic
         topic = topic.replace(mqttprefix+"/","")
         topic = topic.replace("/action","")
-        print(topic)
-        print(zones)
+        #print(topic)
+        #print(zones)
 #    .removesuffix("/action")
     except:
         print(traceback.format_exc())
@@ -59,8 +66,9 @@ def on_message(client, zones, msg):
         return
 
     if payload == "play_pause":
-        pause(zones,topic)
-
+        pause(zones, topic)
+    elif payload == "skip_forward":
+        skipforward(zones, topic)
         
 ## do stuff
 

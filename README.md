@@ -4,3 +4,9 @@ The controller need to be named after the speaker, e.g. mqtt topic *prefix*/*spe
 This is case sensitive and *prefix* need to uniquely identify what messages are from controllers
 
 You probably need to set debounce on the controller, see https://www.zigbee2mqtt.io/devices/E1744.html
+
+Implemented:
+============
+
+* pause/restart - single click on button
+* skip to next in playlist - double click on button
