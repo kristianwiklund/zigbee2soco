@@ -5,6 +5,17 @@ This is case sensitive and *prefix* need to uniquely identify what messages are 
 
 You probably need to set debounce on the controller, see https://www.zigbee2mqtt.io/devices/E1744.html
 
+I'm using this config for my controllers, cribbed directly from the zigbee2mqtt page linked above and saved here if it goes away for some reason:
+
+```
+    debounce: 0.1
+    debounce_ignore:	
+    - action
+    - brightness
+```
+
+
+
 Implemented:
 ============
 

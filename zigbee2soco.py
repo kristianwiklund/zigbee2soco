@@ -2,8 +2,9 @@
 
 import sys 
 
-for path in sys.path:
-    print(path)
+# debug code in case docker doesn't find the modules
+#for path in sys.path:
+#    print(path)
 
 #change this to fit your own prefix. I use the stereo part to automatically identify only stereo events
 
@@ -13,45 +14,59 @@ import paho.mqtt.client as mqtt
 import soco
 import traceback
 
-def discover():
-    zones = {x.player_name:x for x in  soco.discover()}
-    
-    #print("ZONES: "+str(zones))
-    return zones
+# class, to keep some "globals" contained
 
-def pause(zones, speaker):
-    print("Pausing "+speaker)
-    state = zones[speaker].get_current_transport_info()['current_transport_state']
-    #print(state)
+class Z2S:
 
-    if state == "PLAYING":
-        zones[speaker].pause()
-    else:
-        zones[speaker].play()
+    def __init__(self):
+        self.discover()
+        
+    def discover(self):
+        self.zones = {x.player_name:x for x in  soco.discover()}
+        
+        #print("ZONES: "+str(zones))
+        return self.zones
 
-def skipforward(zones, speaker):
-    print("Pausing "+speaker)
-    state = zones[speaker].get_current_transport_info()['current_transport_state']
-    #print(state)
+    def pause(self, speaker):
+        self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
+        #priant(state)
 
-    zones[speaker].next()
+        if self.state == "PLAYING":
+            print("Pause "+speaker)
+            self.zones[speaker].pause()
+        
+        else:
+            print("Play "+speaker)
+            self.zones[speaker].play()
 
+    def skipforward(self, speaker):
+        print("skip forward "+speaker)
+
+        self.zones[speaker].next()
+
+    def volup(self, speaker):
+        self.zones[speaker].volume+=1
+
+    def voldown(self, speaker):
+        self.zones[speaker].volume-=1
+        
+
+############## mqtt callbacks ########################
 
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+def on_connect(client, z2s, flags, rc):
+    print("MQTT Connected with result code "+str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(mqttprefix+"/+/action")
 
 # The callback for when a PUBLISH message is received from the server.
-def on_message(client, zones, msg):
-    
+def on_message(client, z2s, msg):
+
     print(msg.topic+" "+str(msg.payload))
     
     payload = msg.payload.decode("utf-8")
-    print(payload)
 
     try:
         topic = msg.topic
@@ -59,33 +74,41 @@ def on_message(client, zones, msg):
         topic = topic.replace("/action","")
         #print(topic)
         #print(zones)
-#    .removesuffix("/action")
+
     except:
         print(traceback.format_exc())
         print (sys.exc_info()[0])
 
 
-    if not topic in zones:
-        print("No such speaker: "+topic)
-        return
+    # move this to the object
+    if not topic in z2s.zones:
+        print("No such speaker "+topic+" running discover")
+        z2s.discover()
+
+        if not topic in z2s.zones:
+            print ("Not found after rescan")
+            return
 
     if payload == "play_pause":
-        pause(zones, topic)
+        z2s.pause(topic)
     elif payload == "skip_forward":
-        skipforward(zones, topic)
+        z2s.skipforward(topic)
+    elif payload == "rotate_right":
+        z2s.volup(topic)
+    elif payload == "rotate_left":
+        z2s.voldown(topic)
         
-## do stuff
+################################
 
-zones = discover()
+z2s = Z2S()
     
-client = mqtt.Client(userdata=zones)
+client = mqtt.Client(userdata=z2s)
 client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect("localhost", 1883, 60)
 
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
+print ("zigbee2soco starting processing of events")
+
+# mqtt loop
 client.loop_forever()
