@@ -14,6 +14,10 @@ I'm using this config for my controllers, cribbed directly from the zigbee2mqtt 
     - brightness
 ```
 
+I'm basically done with this now, will likely not add the skip backwards (triple click) functionality.
+
+Easiest way to keep this running is with docker:
+```docker-compose build && docker-compose up -d```
 
 
 Implemented:
