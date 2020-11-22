@@ -1,9 +1,11 @@
-This connects sonos to zigbee2mqtt to control SONOS speakers with IKEA SYMFONISK controller
+This connects sonos to zigbee2mqtt to control SONOS speakers with the IKEA SYMFONISK rotary controller.
+Tested with Sonos S1 - unknown if it works with S2.
 
-The controller need to be named after the speaker, e.g. mqtt topic *prefix*/*speaker*, then everything works out of the box.
-This is case sensitive and *prefix* need to uniquely identify what messages are from controllers
+The controller need to be named as the speaker, e.g. mqtt topic *prefix*/*speaker*, then everything works out of the box.
+This is case sensitive and *prefix* need to uniquely identify what messages are from controllers. 
+Change the prefix directly in the python source.
 
-You probably need to set debounce on the controller, see https://www.zigbee2mqtt.io/devices/E1744.html
+You need to set debounce on the controller, see https://www.zigbee2mqtt.io/devices/E1744.html
 
 I'm using this config for my controllers, cribbed directly from the zigbee2mqtt page linked above and saved here if it goes away for some reason:
 
