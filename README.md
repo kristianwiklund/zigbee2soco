@@ -27,4 +27,4 @@ Implemented:
 
 * pause/restart - single click on button
 * skip to next in playlist - double click on button
-* volume control - might require the config above (debounce etc)
+* volume control - might require the config above (debounce etc). The volume cannot be adjusted unless the speaker is playing something.
