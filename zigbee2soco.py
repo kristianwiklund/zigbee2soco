@@ -45,10 +45,14 @@ class Z2S:
         self.zones[speaker].next()
 
     def volup(self, speaker):
-        self.zones[speaker].volume+=1
+        self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
+        if self.state == "PLAYING":
+            self.zones[speaker].volume+=1
 
     def voldown(self, speaker):
-        self.zones[speaker].volume-=1
+        self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
+        if self.state == "PLAYING":
+            self.zones[speaker].volume-=1
         
 
 ############## mqtt callbacks ########################
