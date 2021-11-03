@@ -1,0 +1,2 @@
+paho-mqtt
+soco==0.22.1

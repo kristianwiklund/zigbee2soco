@@ -24,7 +24,7 @@ class Z2S:
     def discover(self):
         self.zones = {x.player_name:x for x in  soco.discover()}
         
-        #print("ZONES: "+str(zones))
+        print("ZONES: "+str(zones))
         return self.zones
 
     def pause(self, speaker):
