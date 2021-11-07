@@ -1,18 +1,36 @@
 #!/usr/bin/python3
 
 import sys 
+import os
 
 # debug code in case docker doesn't find the modules
 #for path in sys.path:
 #    print(path)
 
-#change this to fit your own prefix. I use the stereo part to automatically identify only stereo events
 
-mqttprefix="zigbee/stereo"
 
+try:
+    mqttprefix=os.environ.get("PREFIX")
+except:
+    mqttprefix="zigbee/stereo"
+
+try:
+    mqtthost=os.environ.get("MQTT_HOST")
+except:
+    mqtthost="localhost"
+
+try:
+    mqttport=os.environ.get("MQTT_PORT")
+except:
+    mqttport=1883
+
+
+    
 import paho.mqtt.client as mqtt
 import soco
 import traceback
+
+
 
 # class, to keep some "globals" contained
 
@@ -24,7 +42,7 @@ class Z2S:
     def discover(self):
         self.zones = {x.player_name:x for x in  soco.discover()}
         
-        print("ZONES: "+str(zones))
+        print("ZONES: "+str(self.zones))
         return self.zones
 
     def pause(self, speaker):
@@ -110,7 +128,8 @@ client = mqtt.Client(userdata=z2s)
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("localhost", 1883, 60)
+print ("Connecting to "+mqtthost+":"+str(mqttport))
+client.connect(mqtthost, int(mqttport), 60)
 
 print ("zigbee2soco starting processing of events")
 

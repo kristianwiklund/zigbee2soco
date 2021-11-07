@@ -7,3 +7,7 @@ services:
         image: zigbee2soco
         stdin_open: true # docker run -i
         tty: true        # docker run -t
+        environment:
+          - MQTT_HOST=localhost
+          - MQTT_PORT=1883
+          - PREFIX=zigbee/stereo
