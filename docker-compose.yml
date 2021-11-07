@@ -8,6 +8,8 @@ services:
         stdin_open: true # docker run -i
         tty: true        # docker run -t
         environment:
+          - PREFIX=zigbee/stereo
           - MQTT_HOST=localhost
           - MQTT_PORT=1883
-          - PREFIX=zigbee/stereo
+          - MQTT_USER=minion
+          - MQTT_PASS=banana
