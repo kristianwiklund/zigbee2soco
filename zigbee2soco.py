@@ -25,6 +25,16 @@ except:
     mqttport=1883
 
 
+try:
+    mqttuser=os.environ.get("MQTT_USER")
+except:
+    mqttuser=None
+    
+try:
+    mqttpass=os.environ.get("MQTT_PASS")
+except:
+    mqttpass=None
+
     
 import paho.mqtt.client as mqtt
 import soco
@@ -128,6 +138,9 @@ client = mqtt.Client(userdata=z2s)
 client.on_connect = on_connect
 client.on_message = on_message
 
+if mqttuser:
+    client.username_pw_set(mqttuser, mqttpass)
+    
 print ("Connecting to "+mqtthost+":"+str(mqttport))
 client.connect(mqtthost, int(mqttport), 60)
 
