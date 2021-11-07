@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:18.04
 COPY requirements.txt requirements.txt
 RUN apt-get update && apt-get -y install --no-install-recommends python3 python3-pip
 RUN pip3 install --upgrade pip setuptools wheel
