@@ -31,7 +31,7 @@ You can either edit the config into the source, or if using docker-compose, chan
 * MQTT_PORT=1883       _mqtt port_
 * MQTT_USER=minion     _mqtt user_
 * MQTT_PASS=banana     _mqtt password_
-						  
+* VOLUME_MULTIPLIER=2  _higher number -> quicker reaction when turning the button_						  
 
 
 Implemented:

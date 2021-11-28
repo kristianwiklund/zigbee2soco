@@ -8,6 +8,10 @@ import os
 #    print(path)
 
 
+try:
+    multiplier=int(os.environ.get("VOLUME_MULTIPLIER"))
+except:
+    multiplier=1
 
 try:
     mqttprefix=os.environ.get("PREFIX")
@@ -75,12 +79,12 @@ class Z2S:
     def volup(self, speaker):
         self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
         if self.state == "PLAYING":
-            self.zones[speaker].volume+=1
+            self.zones[speaker].volume+=multiplier
 
     def voldown(self, speaker):
         self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
         if self.state == "PLAYING":
-            self.zones[speaker].volume-=1
+            self.zones[speaker].volume-=multiplier
         
 
 ############## mqtt callbacks ########################
