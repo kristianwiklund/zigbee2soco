@@ -79,12 +79,15 @@ class Z2S:
     def volup(self, speaker):
         self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
         if self.state == "PLAYING":
-            self.zones[speaker].volume+=multiplier
+            nv =  min(self.zones[speaker].volume+multiplier,100)
+            self.zones[speaker].volume = nv
 
     def voldown(self, speaker):
         self.state = self.zones[speaker].get_current_transport_info()['current_transport_state']
         if self.state == "PLAYING":
-            self.zones[speaker].volume-=multiplier
+            nv =  max(self.zones[speaker].volume-multiplier,0)
+            self.zones[speaker].volume = nv
+
         
 
 ############## mqtt callbacks ########################
