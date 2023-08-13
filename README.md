@@ -8,6 +8,9 @@ Tested with Sonos S1 - unknown if it works with S2.
 The controller need to be named as the speaker, e.g. mqtt topic *prefix*/*speaker*, then everything works out of the box.
 This is case sensitive and *prefix* need to uniquely identify what messages are from controllers. 
 
+Easiest way to keep this running is with docker:
+```docker-compose build && docker-compose up -d```
+
 Configuration:
 ==============
 
@@ -43,6 +46,4 @@ I'm using this config for my controllers, cribbed directly from the zigbee2mqtt 
     - brightness
 ```
 
-Easiest way to keep this running is with docker:
-```docker-compose build && docker-compose up -d```
 
