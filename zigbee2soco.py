@@ -133,13 +133,26 @@ def on_message(client, z2s, msg):
             return
 
     if payload == "play_pause":
+        # both gen1 and gen2 have play_pause
         z2s.pause(topic)
-    elif payload == "skip_forward":
+    elif payload == "skip_forward" or payload == "track_next":
+        # gen1 - skip_forward, gen2 - track_next
         z2s.skipforward(topic)
-    elif payload == "rotate_right":
+    elif payload == "rotate_right" or payload == "volume_up" or payload == "volume_up_hold":
+        # gen1 - rotate, gen2 - volume...
         z2s.volup(topic)
-    elif payload == "rotate_left":
+    elif payload == "rotate_left"  or payload == "volume_down" or payload == "volume_down_hold": 
+        # gen1 - rotate, gen2 - volume...
         z2s.voldown(topic)
+
+    # not implemented:
+    # dots buttons
+    
+    # skip_backward
+    # skip_backward can be implemented by calling device_previous() but (in my experience) the wanted behavior is
+    # to reset the currently playing tune to 0 at the first click, then, if the skip_backward is pressed again before
+    # (a short time) has elapsed, we jump back one tune. This means that we need to get the play time, check it, then do something
+    
         
 ################################
 
