@@ -69,7 +69,11 @@ class Z2S:
         
         else:
             print("Play "+speaker)
-            self.zones[speaker].play()
+            try:                
+                self.zones[speaker].play()
+            except:
+                print("Unable to play tune on "+speaker+". Try playing something from the Sonos controller first.")
+                pass
 
     def skipforward(self, speaker):
         print("skip forward "+speaker)
