@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 RUN apt-get update && apt-get -y install --no-install-recommends python3 python3-pip
 RUN pip3 install --upgrade pip setuptools wheel
 RUN pip3 install paho-mqtt
